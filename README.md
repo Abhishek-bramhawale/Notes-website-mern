@@ -82,6 +82,9 @@ npm start
 - Keep your MongoDB credentials secure
 - Use HTTPS in production
 
+## 🔗 Live Demo
+[View Live Demo](https://your-vercel-url.vercel.app)
+
 ## License
 
 MIT

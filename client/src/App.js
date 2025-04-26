@@ -29,15 +29,18 @@ function App() {
           'Accept': 'application/json'
         }
       });
+      
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const errorData = await response.json().catch(() => ({ error: 'Failed to parse error response' }));
+        throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
       }
+      
       const data = await response.json();
       setNotes(data);
       setError(null);
     } catch (error) {
       console.error('Error fetching notes:', error);
-      setError('Failed to fetch notes. Please try again later.');
+      setError(error.message || 'Failed to fetch notes. Please try again later.');
     } finally {
       setLoading(false);
     }
@@ -64,7 +67,7 @@ function App() {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
+        const errorData = await response.json().catch(() => ({ error: 'Failed to parse error response' }));
         throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
       }
 
