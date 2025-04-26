@@ -24,8 +24,8 @@ app.use(express.json());
 
 // Error handling middleware
 app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).json({ error: 'Something went wrong!' });
+    console.error('Error middleware:', err.stack); // Debug log
+    res.status(500).json({ error: 'Something went wrong!', details: err.message });
 });
 
 // MongoDB Connection with error handling
@@ -89,8 +89,8 @@ app.post('/api/register', async (req, res) => {
         const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
         res.status(201).json({ user, token });
     } catch (error) {
-        console.error('Registration error:', error);
-        res.status(400).json({ error: error.message });
+        console.error('Registration error:', error); // Debug log
+        res.status(400).json({ error: 'Registration failed', details: error.message });
     }
 });
 
@@ -117,8 +117,8 @@ app.post('/api/login', async (req, res) => {
         const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
         res.json({ user, token });
     } catch (error) {
-        console.error('Login error:', error);
-        res.status(400).json({ error: error.message });
+        console.error('Login error:', error); // Debug log
+        res.status(400).json({ error: 'Login failed', details: error.message });
     }
 });
 
